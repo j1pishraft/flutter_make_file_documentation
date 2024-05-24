@@ -1,0 +1,17 @@
+body{
+    margin: 50;
+    background: #E8E8E8;
+    text-align: left;
+    text-align: justify;
+}
+
+h1 {
+  text-align: center;
+  color:black;
+}
+img {
+      max-width: 100%;
+      height: auto;
+      display: block; /* Removes extra space below inline images in some browsers */
+      margin: auto; /* Center the image */
+    }
