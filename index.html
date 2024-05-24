@@ -1,0 +1,240 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Flavor and Environment Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+</head>
+<body>
+<main>
+    <h1>Welcome to Flutter Flavor Management Page</h1>
+</main>
+
+
+<p><img src="./images/profile_image.jpg" alt="profile_image"
+        style="display:inline-block; width:100px; height:100px;"><img src="./images/flutter.svg" alt="flutter_logo"
+        style="display:inline-block; width:100px; height:100px;"><b><span
+        style="vertical-align:bottom">  Created By Mohamad Javad Pishraft (Jay)</span></b></p><br>
+
+<!--<img src="./images/profile_image.jpg" alt="profile_image"><p><b>Created By Mohamad Javad Pishraft (Jay)</b></p><br>-->
+
+<p><b>**Note**:</b> I will keep this page up to date if required</p><br>
+
+<p>In Flutter:<br>
+    <br>
+    <b>Flavor:</b><br>
+    <br>
+    A "flavor" refers to a variation or version of an application that is tailored for specific use
+    cases, audiences, or environments.
+    Flavors are created by defining different configurations, such as API endpoints, app icons,
+    branding, or features, for distinct instances of an app within the same codebase.
+    Common use cases include developing different versions of an app (e.g., free and premium) or
+    creating branded versions for different clients.<br>
+    <br>
+    <b>Environment:</b><br>
+    <br>
+    An "environment" in Flutter typically refers to the stage or context in which the application is
+    running, such as development, staging, or production.
+    Different environments have specific configurations (e.g., debug modes, API endpoints) that are
+    essential for testing and deploying applications without modifying the source code.
+    Environments help manage settings and behavior variations across development, testing, and
+    production stages.<br>
+    <br>
+    In summary, flavors are used for creating different versions of an app with unique
+    configurations, while environments are used to manage various stages of application development
+    by adjusting settings and behaviors. Together, flavors and environments enhance the flexibility,
+    maintainability, and scalability of Flutter applications.</p><br>
+<br>
+<p><b>**Note 1**:</b> having only environment doesn't allow you to have same app with different
+    icon,
+    name and identifier. For that you also need to setup flavor for your project.</p><br>
+<p><b>**Note 2**:</b> Usually for environments you can create app_config.json to keep sensitive or
+    environment-specific configuration outside your codebase (never pushed to any repo, it is
+    saved on local machine or pushed by CI/CD pipeline tools during app deployment) and easily
+    switch between configurations for different environments (development, staging,
+    production) by modifying the app_config.json file.</p><br>
+
+<p><b>*****Steps to create Environments*****</b><br></p>
+<p><b>1. Create enum for your Environment </b><br></p>
+<p>In your project directory create a file called app_env.dart to create class "Environment"</p><br>
+<img src="./images/app_environment_enum.png" alt="app_env_enum"><br>
+<br>
+
+<p><b>2. Create main files </b><br></p>
+<p>make a copy of main file and rename them based on how many environment you have<br></p>
+<p>In my case I have two environments, dev and prod so I need to have 3 main file, one for dev, one
+    for prod and on main_common.dart<br></p>
+
+<img src="./images/rename_main_screen_shot.png" alt="rename_main_screen_shot"><br>
+
+<p><b>3. Edit main files accordingly </b><br></p>
+<p>Pass the environment variable to your mainCommon.dart<br></p>
+<img src="./images/main_common.png" alt="main_common"><br>
+<img src="./images/main_dev.png" alt="main_dev"><br>
+<img src="./images/main_prod.png" alt="main_prod"><br>
+
+<p><b>4. app_config.jason and config reader </b><br></p>
+<p><b>**Note**:</b>As I mentioned earlier you might need to have have app_config.jason to keep your
+    configuration
+    more secure if no you can skipp this step<br></p>
+<p><b>4.1</b> Create app_config.json with your set of configuration and include its directory to
+    your
+    .gitIgnore file . <br></p>
+<p><b>4.1.1</b> Create a class called ConfigReader to parse app_config file data.<br></p>
+<img src="./images/app_config_json.png" alt="app_config_json"><br>
+<img src="./images/gitignore.png" alt="gitignore"><br>
+<img src="./images/config_reader.png" alt="config_reader"><br>
+
+
+<p><b>4.2. flavor_config.dart file </b><br></p>
+<p><b>4.2.1</b> Alternatively you might want to have your configuration setup in your code therefore
+    you need to
+    create a class called FlavorConfig.dart <br></p>
+<p>This is Singleton class that is holding the configuration data during development lifecycle, so
+    you can access its data anywhere is your code<br></p>
+<img src="./images/flavor_config.png" alt="flavor_config"><br>
+
+<p><b>5. Initialise ConfigReader() and FlavorConfig in mainCommon.dart </b><br></p>
+<img src="./images/initialise_config_classes.png" alt="initialise_config_classes"><br>
+
+<p><b>6. All up to now was to setup environments </b><br></p>
+<p>Now you should be ready to run your app using different Environments by<br></p>
+<p><b>6.1</b> Writing "flutter run -t lib/main_dev.dart" for "dev" and "flutter run -t
+    lib/main_prod.dart"
+    for "prod" environment is your terminal<br></p>
+<p><b>6.2</b> Creating new Run Configuration on your IDE for all your environments<br></p>
+<img src="./images/run_config_ide.png" alt="run_config_ide"><br>
+
+<p><b>**Note**:</b> Keep in mind, as mentioned earlier the app will install based on current
+    configuration and will replace the older installed version with the same name, icon and bundle
+    identifier</p><br>
+<br>
+<br>
+
+<p><b>******Steps to create flavors***** </b><br></p>
+<p><b>Now we go through to create flavor for both Android and iOS</b><br></p>
+<p><b>**Note**:</b> In order to setup flavor make sure you have set up environments (follow the
+    above steps).<br>
+</p>
+<p><b>In this section we also demonstrate how to set up different Icons, Names, and bundle
+    identifier for our project.</b><br></p>
+<br>
+<p><b>1. Android Setup </b><br></p>
+<p><b>1.1 In android folder open build.gradle file under app folder and add the following block
+    code
+    after buildTypes{} block</b><br></p>
+<p>This is a basic Configuration, there are more config that you can add like versionCode,
+    versionName and applicationId<br></p>
+<img src="./images/build_gradle_code.png" alt="build_gradle_code"><br>
+<p><b>1.2 Create application name</b><br></p>
+<p><b>1.2.1</b> Create string.xml file for each flavor for application name<br></p>
+<p>Under "android/app/src" directory create folders based on number of flavors you have. In my case
+    we
+    have "dev/res/values/string.xml" and "prod/res/values/string.xml"<br></p>
+<img src="./images/app_name_xml_files.png" alt="app_name_xml_files"><br>
+<p><b>1.2.2</b> Open "android/app/src/main/manifest.xml"<br></p>
+<p>In manifest file add "android:label="@string/app_name"" inside application tag<br></p>
+<img src="./images/manifest_xml.png" alt="manifest_xml"><br>
+
+<p><b>1.3 Create app icons</b><br></p>
+<p><b>**Note**:</b> This step will create assets for both android and iOS</p><br>
+<p><b>1.3.1</b> add "flutter_launcher_icons" package in "pubspec.yaml" file under
+    "dev_dependencies:"<br>
+</p>
+<img src="./images/pubspec_yaml.png" alt="pubspec_yaml"><br>
+<p><b>1.3.2</b> Create "assets/icons" folder under project root directory and locate the icons file
+    in
+    this folder<br></p>
+<img src="./images/icons.png" alt="icons"><br>
+<p><b>**Note**:</b> icons sizes should be 512*512 in png format and make sure Alpha Filter is
+    removed when you save the photo</p><br>
+<img src="./images/alpha_filter.png" alt="alpha_filter"><br>
+<p><b>1.3.3</b> Create flutter launcher yaml file for your flavors,
+    "flutter_launcher_icons-dev.yaml",
+    "flutter_launcher_icons-prod.yaml" in project root directory<br></p>
+<img src="./images/flutter_launcher_yaml.png" alt="flutter_launcher_yaml"><br>
+<p><b>1.3.4</b> Run the <b>"flutter pub run flutter_launcher_icons:main -f
+    flutter_launcher_icons*"</b> command
+    in the terminal<br></p>
+<p>Now the necessary icons assets with different resolution will be automatically generated for both
+    android and iOS
+    (below image is for Android)<br></p>
+<img src="./images/auto_generate_icons.png" alt="auto_generate_icons"><br>
+<p><b>1.4 Run the App (For Android you are all done)</b><br></p>
+<p><b>1.4.1</b> To test your app you can run your project with the following
+    command: <b>"flutter run --flavor prod -t lib/main_dev.dart"</b>
+    or <b>"flutter run --flavor prod -t lib/main_prod.dart" in your terminal</b><br></p>
+<p><b>1.4.2</b> Alternatively you can setup run configuration on your IDE<br></p>
+<img src="./images/dev_flavor_run_config.png" alt="dev_flavor_run_config"><br>
+<img src="./images/prod_flavor_run_config.png" alt="prod_flavor_run_config"><br>
+<p><b>Now based on your Flavor you will have separate app with different name and icon</b><br></p>
+<p><b>*****For android you are all done.*****</b><br></p>
+<br>
+
+<p><b>2. iOS Setup </b><br></p>
+<p>In iOS flavor is called Scheme</p>
+<p><b>2.1 open ios folder of your project in xcode</b><br></p>
+<p><b>2.2 Create new Schemes</b><br></p>
+<p>Select Runner dropdown and duplicate the runner and change its name in our case to dev and prod
+    <br></p>
+<img src="./images/set_scheme_1.png" alt="set_scheme_1"><br>
+<img src="./images/set_scheme_2.png" alt="set_scheme_2"><br>
+<img src="./images/set_scheme_3.png" alt="set_scheme_3"><br>
+
+<p><b>2.3 Setup Build configuration</b><br></p>
+<p>From left pane select Runner then under project pane select Runner select info tab and add
+    configurations. in our case we dev and prod</p>
+<img src="./images/ios_build_config.png" alt="ios_build_config"><br>
+
+<p><b>2.4 Edit dev and prod schemes with correct build config accordingly</b><br></p>
+<img src="./images/scheme_dev_config.png" alt="scheme_dev_config"><br>
+<img src="./images/scheme_prod_config.png" alt="scheme_prod_config"><br>
+
+<p><b>2.5 Set app icons</b><br></p>
+<p><b>2.5.1</b> From left pane "select Runner/assets.xcassets" to make sure the auto generated icons
+    with different resolution are available for your flavors</p>
+<img src="./images/ios_auto_gen_icons.png" alt="ios_auto_gen_icons"><br>
+
+<p><b>2.5.2</b> Go to "Targets/Runner" select Build Settings and search for "icon". Under "Asset
+    Catalog/Primary App Icon Set Name" set the icons for each flavor accordingly</p>
+<img src="./images/set_ios_app_icon.png" alt="set_ios_app_icon"><br>
+
+<p><b>2.6 Set Product Bundle Identifier</b><br></p>
+<p><b>2.6.1</b> Go to "Targets/Runner" select Build Settings and search for "Product Bundle". Under
+    "Packaging/Product Bundle Identifier" set app bundles for each flavor accordingly</p>
+<img src="./images/ios_product_bundle.png" alt="ios_product_bundle"><br>
+
+<p><b>2.7 Set app name</b><br></p>
+<p><b>2.7.1</b> From left pane select "Runner/info.plist". Inside here add a property called "Bundle
+    display name" and set its value to "$(PRODUCT_NAME)"</p>
+<img src="./images/ios_app_display_name_info_plist.png" alt="ios_app_display_name_info_plist"><br>
+
+<p><b>2.7.2</b> Go to "Targets/Runner/General" tab leave Display name empty</p>
+<img src="./images/leave_main_display_name_empty.png" alt="leave_main_display_name_empty"><br>
+
+<p><b>2.7.3</b> Lastly Go to "Targets/Runner/Build Setting" and search for "product name". Here set
+    the
+    app name for each flavor</p>
+<img src="./images/define_ios_app_names.png" alt="define_ios_app_names"><br>
+
+
+<p><b>2.8 For final step you need to select proper Flutter_Target for each flavor</b><br></p>
+<p><b>2.8.1</b> Go to "Targets/Runner/Build Setting" and search for "flutter". Under
+    "Flutter_Target"
+    select the proper main.dart for your flavors</p>
+<img src="./images/ios_set_flutter_target.png" alt="ios_set_flutter_target"><br>
+
+<p><b>2.9 Run iOS app</b><br></p>
+<p><b>2.9.1</b> Now you can run your by running this command into your terminal <b>"flutter run
+    --flavor
+    prod -t lib/main_dev.dart"</b></p>
+<p><b>2.9.2</b> Alternatively you can run your app either form your IDE or xcode configuration
+    setting</p>
+
+<p><b>***********</b> Congratulation now Environments and Flavors has been set up for both android
+    and iOS<b>***********</b></p><br>
+
+</body>
+</html>
