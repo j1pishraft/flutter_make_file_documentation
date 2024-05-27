@@ -10,7 +10,7 @@ h1 {
   color:black;
 }
 img {
-      max-width: 100%;
+      max-width: 70%;
       height: auto;
       display: block; /* Removes extra space below inline images in some browsers */
       margin: auto; /* Center the image */
